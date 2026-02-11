@@ -31,6 +31,32 @@
         <section class="mainSection">
             <div id="poke-cards" class="row row-cols-1 row-cols-md-3 g-4"></div>
             </div>
+            <div> 
+                <!-- Modal -->
+<!-- Ein Modal für alle Pokémon -->
+<div class="modal fade" id="pokemonModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pokemonModalLabel">Pokémon Name</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div id="modalBody" class="modal-body text-center">
+        <img id="modalImage" src="" class="img-fluid mb-3">
+        <div id="modalTypes"></div>
+        <div id="modalStats" class="mt-2 modal-card" style="text-align: start; font-family: monospace;"></div>
+      </div>
+      <div class="modal-footer d-flex justify-content-between">
+        <button onclick="showNext('prev')" class="btn btn-outline-primary" id="prevPokemon">←</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button onclick="showNext('next')" class="btn btn-outline-primary" id="nextPokemon">→</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+            </div>
         </section>
     </main>
 </body>

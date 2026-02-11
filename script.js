@@ -19,32 +19,38 @@ const typeColors = {
   flying: "#a890f0"
 };
 
+let allPokemons = [];
+let currentPokemonIndex = 0;
+let newIndex;
+let myModal;
+
 function init() {
+  myModal = new bootstrap.Modal(document.getElementById('pokemonModal')); // einmal erstellen
   fetchPokemonList();
+
 }
 
 async function fetchPokemonList() {
   let response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=25&offset=0');
   let data = await response.json();
-
-  data.results.forEach(pokemon => {
-    fetchPokemonDetails(pokemon.url);
+  allPokemons = data.results;
+  data.results.forEach((pokemon, index) => {
+    fetchPokemonDetails(pokemon.url, index);
   });
 }
 
-async function fetchPokemonDetails(url) {
+async function fetchPokemonDetails(url, index) {
   let response = await fetch(url);
   let pokemon = await response.json();
+  pokemon.index = index;
   createPokemonCard(pokemon);
 }
 
 function createTypeBadges(types) {
   let badgesHtml = "";
-
   for (let i = 0; i < types.length; i++) {
     let typeName = types[i].type.name;
     let color = typeColors[typeName];
-
     badgesHtml += `
       <span class="badge me-1 type" style="background-color:${color} ">
         ${typeName}
@@ -61,7 +67,7 @@ function createPokemonCard(pokemon) {
   document.getElementById('poke-cards').innerHTML += `
 
   <div class="col">
-    <div class="card h-100 text-center"  style="background-color:${bgColor}">
+    <div class="card h-100 text-center" onclick="openPokemonModal(${pokemon.index})" style="background-color:${bgColor}">
         <img src="${pokemon.sprites.front_default}" class="card-img-top mx-auto mt-3" style="width:120px">
      <div class="card-body">
         <h5 class="card-title">${pokemon.name}</h5>
@@ -72,5 +78,51 @@ function createPokemonCard(pokemon) {
     </div>
   </div>
   `;
+}
+function openPokemonModal(index) {
+  currentPokemonIndex = index;
+  showPokemonModal(allPokemons[currentPokemonIndex]);
+}
+
+async function showPokemonModal(pokemonSummary) {
+  let response = await fetch(pokemonSummary.url);
+  let pokemon = await response.json();
+  document.getElementById('pokemonModalLabel').textContent = pokemon.name;
+  document.getElementById('modalImage').src = pokemon.sprites.front_default;
+
+  let typesHtml = "";
+  for (let i = 0; i < pokemon.types.length; i++) {
+    let typeName = pokemon.types[i].type.name;
+    typesHtml += `<span class="badge me-1" style="background-color:${typeColors[typeName]}; color:white; border-radius:12px; padding:4px 10px;">${typeName}</span>`;
+  }
+  document.getElementById('modalTypes').innerHTML = typesHtml;
+  
+  let modalBgColor = typeColors[pokemon.types[0].type.name];
+  document.getElementById('modalBody').style.backgroundColor = modalBgColor;
+  
+  let statsHtml = "";
+  for (let i = 0; i < pokemon.stats.length; i++) {
+    statsHtml += ` <tr>
+            <td>${pokemon.stats[i].stat.name}:</td>
+            <td>${pokemon.stats[i].base_stat}</td>
+                <div class="progress" role="progressbar" aria-label="${pokemon.stats[i].stat.name} stat"
+                    aria-valuenow=" ${pokemon.stats[i].base_stat} " aria-valuemin="0" aria-valuemax="150" style="height: 2px">
+                    <div class="progress-bar" style="width: ${pokemon.stats[i].base_stat}%;"></div>
+                </div>
+            </td>
+        </tr>`;
+  }
+  document.getElementById('modalStats').innerHTML = statsHtml;
+  myModal.show();
+}
+
+async function showNext(direction) {
+  if (currentPokemonIndex === -1) return;
+  if (direction === 'next') {
+    currentPokemonIndex = (currentPokemonIndex + 1) % allPokemons.length;
+  } else {
+    currentPokemonIndex = (currentPokemonIndex - 1 + allPokemons.length) % allPokemons.length;
+  }
+  await showPokemonModal(allPokemons[currentPokemonIndex]);
 }
 
