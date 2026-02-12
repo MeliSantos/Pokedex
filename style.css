@@ -38,3 +38,33 @@ body {
     margin-right: 5px;
     font-size: 0.85rem;
 }
+.modalNav {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+.ImgModal{
+    width:150px;
+    height: auto;
+}
+.nav-link{
+    color: black;
+}
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px 0 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.info-label {
+    font-weight: 600;
+}
+
+.info-value {
+    text-align: right;
+}
+.modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}

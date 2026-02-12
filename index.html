@@ -31,34 +31,65 @@
         <section class="mainSection">
             <div id="poke-cards" class="row row-cols-1 row-cols-md-3 g-4"></div>
             </div>
-            <div> 
-                <!-- Modal -->
-<!-- Ein Modal für alle Pokémon -->
-<div class="modal fade" id="pokemonModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="pokemonModalLabel">Pokémon Name</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div id="modalBody" class="modal-body text-center">
-        <img id="modalImage" src="" class="img-fluid mb-3">
-        <div id="modalTypes"></div>
-        <div id="modalStats" class="mt-2 modal-card" style="text-align: start; font-family: monospace;"></div>
-      </div>
-      <div class="modal-footer d-flex justify-content-between">
-        <button onclick="showNext('prev')" class="btn btn-outline-primary" id="prevPokemon">←</button>
-        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button onclick="showNext('next')" class="btn btn-outline-primary" id="nextPokemon">→</button>
-      </div>
-    </div>
-  </div>
-</div>
+            <div>
+                <div class="modal fade" id="pokemonModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="pokemonModalLabel">Pokémon Name</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div id="modalBody" class="modal-body text-center">
+                                <img id="modalImage" src="" class="img-fluid mb-3 ImgModal">
+                                <div id="modalTypes"></div>
+                                <nav>
+                                    <div class="nav nav-tabs modalNav" id="nav-tab" role="tablist">
+                                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                                            data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                                            aria-selected="true">Main info</button>
+                                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+                                            data-bs-target="#nav-profile" type="button" role="tab"
+                                            aria-controls="nav-profile" aria-selected="false">Stats</button>
+
+
+                                    </div>
+                                </nav>
+                                <div class="tab-content" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                        aria-labelledby="nav-home-tab" tabindex="0">
+                                        <div id="modalMainInfo" class="MainInfo"></div>
+                                    </div>
+                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                                        aria-labelledby="nav-profile-tab" tabindex="0">
+                                        <div id="modalStats" class="mt-2 modal-card"
+                                            style="text-align: start;"></div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer d-flex justify-content-between">
+                                <button onclick="showNext('prev')" class="btn btn-outline-secondary" id="prevPokemon">
+                                    < </button>
+                                        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button onclick="showNext('next')" class="btn btn-outline-secondary"
+                                            id="nextPokemon">></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>
         </section>
     </main>
+    <footer>
+
+    </footer>
+    <div class="d-flex align-items-center">
+        <strong role="status">Loading...</strong>
+        <div class="spinner-border ms-auto" aria-hidden="true"></div>
+    </div>
 </body>
 
 </html>

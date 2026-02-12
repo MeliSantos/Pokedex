@@ -89,6 +89,8 @@ async function showPokemonModal(pokemonSummary) {
   let pokemon = await response.json();
   document.getElementById('pokemonModalLabel').textContent = pokemon.name;
   document.getElementById('modalImage').src = pokemon.sprites.front_default;
+  let modalBgColor = typeColors[pokemon.types[0].type.name];
+  document.getElementById('modalImage').style.backgroundColor = modalBgColor;
 
   let typesHtml = "";
   for (let i = 0; i < pokemon.types.length; i++) {
@@ -96,23 +98,55 @@ async function showPokemonModal(pokemonSummary) {
     typesHtml += `<span class="badge me-1" style="background-color:${typeColors[typeName]}; color:white; border-radius:12px; padding:4px 10px;">${typeName}</span>`;
   }
   document.getElementById('modalTypes').innerHTML = typesHtml;
-  
-  let modalBgColor = typeColors[pokemon.types[0].type.name];
-  document.getElementById('modalBody').style.backgroundColor = modalBgColor;
-  
+
+
+
+
   let statsHtml = "";
   for (let i = 0; i < pokemon.stats.length; i++) {
     statsHtml += ` <tr>
-            <td>${pokemon.stats[i].stat.name}:</td>
+           <td><strong>${pokemon.stats[i].stat.name}:</strong></td>
             <td>${pokemon.stats[i].base_stat}</td>
-                <div class="progress" role="progressbar" aria-label="${pokemon.stats[i].stat.name} stat"
+              <td>  <div class="progress" role="progressbar" aria-label="${pokemon.stats[i].stat.name} stat"
                     aria-valuenow=" ${pokemon.stats[i].base_stat} " aria-valuemin="0" aria-valuemax="150" style="height: 2px">
                     <div class="progress-bar" style="width: ${pokemon.stats[i].base_stat}%;"></div>
                 </div>
             </td>
         </tr>`;
   }
+
   document.getElementById('modalStats').innerHTML = statsHtml;
+  let heightInMeters = pokemon.height / 10;
+  let weightInKg = pokemon.weight / 10;
+  let mainInfoHtml = `
+  <div class="info-row">
+    <span class="info-label">ID</span>
+    <span class="info-value">#${pokemon.id}</span>
+  </div>
+
+  <div class="info-row">
+    <span class="info-label">Height</span>
+    <span class="info-value">${heightInMeters} m</span>
+  </div>
+
+  <div class="info-row">
+    <span class="info-label">Weight</span>
+    <span class="info-value">${weightInKg} kg</span>
+  </div>
+
+  <div class="info-row">
+    <span class="info-label">Base Exp</span>
+    <span class="info-value">${pokemon.base_experience}</span>
+  </div>
+
+  <div class="info-row">
+    <span class="info-label">Abilities</span>
+    <span class="info-value">
+      ${pokemon.abilities.map(a => a.ability.name).join(", ")}
+    </span>
+  </div>
+`;
+  document.getElementById("modalMainInfo").innerHTML = mainInfoHtml ;
   myModal.show();
 }
 
@@ -126,3 +160,12 @@ async function showNext(direction) {
   await showPokemonModal(allPokemons[currentPokemonIndex]);
 }
 
+const triggerTabList = document.querySelectorAll('#myTab button')
+triggerTabList.forEach(triggerEl => {
+  const tabTrigger = new bootstrap.Tab(triggerEl)
+
+  triggerEl.addEventListener('click', event => {
+    event.preventDefault()
+    tabTrigger.show()
+  })
+})
