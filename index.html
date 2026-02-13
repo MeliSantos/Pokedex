@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./img/pokeball.png">
     <title>Pokedex</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -18,10 +19,15 @@
     <header>
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand">Pokedex</a>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                <div>
+                    <a href="./index.html"><img src="./img/pokeball.png" class="pokeball" alt="Pokeball"></a>
+                    <a class="navbar-brand" href="./index.html">Pokedex</a>
+                </div>
+                <form class="d-flex" role="search" onsubmit="event.preventDefault(); searchPokemon();">
+                    <input id="searchInput" class="form-control me-2" type="search" placeholder="Search"
+                        aria-label="Search" />
+                    <button id="searchButton" onclick="searchPokemon()" class="btn btn-outline-secondary"
+                        type="button">Search</button>
                 </form>
             </div>
         </nav>
@@ -46,50 +52,50 @@
                                 <div id="modalLoading"
                                     class="d-flex align-items-center justify-content-center py-4 d-none">
                                     <strong role="status">Loading...</strong>
-                                    <div class="spinner-border ms-3" aria-hidden="true"></div></div>
-                                    <div id="modalContent" class="d-none">
-                                        <img id="modalImage" src="" class="img-fluid mb-3 ImgModal">
-                                        <div id="modalTypes"></div>
-                                        <nav>
-                                            <div class="nav nav-tabs modalNav" id="nav-tab" role="tablist">
-                                                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#nav-home" type="button" role="tab"
-                                                    aria-controls="nav-home" aria-selected="true">Main info</button>
-                                                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
-                                                    data-bs-target="#nav-profile" type="button" role="tab"
-                                                    aria-controls="nav-profile" aria-selected="false">Stats</button>
+                                    <div class="spinner-border ms-3" aria-hidden="true"></div>
+                                </div>
+                                <div id="modalContent" class="d-none">
+                                    <img id="modalImage" src="" class="img-fluid mb-3 ImgModal">
+                                    <div id="modalTypes"></div>
+                                    <nav>
+                                        <div class="nav nav-tabs modalNav" id="nav-tab" role="tablist">
+                                            <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                                                data-bs-target="#nav-home" type="button" role="tab"
+                                                aria-controls="nav-home" aria-selected="true">Main info</button>
+                                            <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+                                                data-bs-target="#nav-profile" type="button" role="tab"
+                                                aria-controls="nav-profile" aria-selected="false">Stats</button>
 
 
-                                            </div>
-                                        </nav>
-                                        <div class="tab-content" id="nav-tabContent">
-                                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                                                aria-labelledby="nav-home-tab" tabindex="0">
-                                                <div id="modalMainInfo" class="MainInfo"></div>
-                                            </div>
-                                            <div class="tab-pane fade" id="nav-profile">
-                                                <div id="modalStats" class="table table-sm">
-                                                    
-                                                </div>
+                                        </div>
+                                    </nav>
+                                    <div class="tab-content" id="nav-tabContent">
+                                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                            aria-labelledby="nav-home-tab" tabindex="0">
+                                            <div id="modalMainInfo" class="MainInfo"></div>
+                                        </div>
+                                        <div class="tab-pane fade" id="nav-profile">
+                                            <div id="modalStats" class="table table-sm">
+
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                </div>
-                                <div class="modal-footer d-flex justify-content-between">
-                                    <button onclick="showNext('prev')" class="btn btn-outline-secondary"
-                                        id="prevPokemon">
-                                        < </button>
-                                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <button onclick="showNext('next')" class="btn btn-outline-secondary"
-                                                id="nextPokemon">></button>
-                                </div>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-between">
+                                <button onclick="showNext('prev')" class="btn btn-outline-secondary" id="prevPokemon">
+                                    < </button>
+                                        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button onclick="showNext('next')" class="btn btn-outline-secondary"
+                                            id="nextPokemon">></button>
                             </div>
                         </div>
                     </div>
-
-
                 </div>
+
+
+            </div>
         </section>
     </main>
     <footer>
