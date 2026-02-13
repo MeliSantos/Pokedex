@@ -85,8 +85,13 @@ function openPokemonModal(index) {
 }
 
 async function showPokemonModal(pokemonSummary) {
+  document.getElementById("modalLoading").classList.remove("d-none");
+  document.getElementById("modalContent").classList.add("d-none");
+  myModal.show();
   let response = await fetch(pokemonSummary.url);
   let pokemon = await response.json();
+
+
   document.getElementById('pokemonModalLabel').textContent = pokemon.name;
   document.getElementById('modalImage').src = pokemon.sprites.front_default;
   let modalBgColor = typeColors[pokemon.types[0].type.name];
@@ -146,8 +151,11 @@ async function showPokemonModal(pokemonSummary) {
     </span>
   </div>
 `;
-  document.getElementById("modalMainInfo").innerHTML = mainInfoHtml ;
-  myModal.show();
+  document.getElementById("modalMainInfo").innerHTML = mainInfoHtml;
+
+
+  document.getElementById("modalLoading").classList.add("d-none");
+  document.getElementById("modalContent").classList.remove("d-none");
 }
 
 async function showNext(direction) {

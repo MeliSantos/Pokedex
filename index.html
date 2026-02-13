@@ -21,13 +21,16 @@
                 <a class="navbar-brand">Pokedex</a>
                 <form class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
                 </form>
             </div>
         </nav>
 
     </header>
+
     <main>
+
+        </div>
         <section class="mainSection">
             <div id="poke-cards" class="row row-cols-1 row-cols-md-3 g-4"></div>
             </div>
@@ -40,56 +43,59 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
                             <div id="modalBody" class="modal-body text-center">
-                                <img id="modalImage" src="" class="img-fluid mb-3 ImgModal">
-                                <div id="modalTypes"></div>
-                                <nav>
-                                    <div class="nav nav-tabs modalNav" id="nav-tab" role="tablist">
-                                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
-                                            data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                                            aria-selected="true">Main info</button>
-                                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
-                                            data-bs-target="#nav-profile" type="button" role="tab"
-                                            aria-controls="nav-profile" aria-selected="false">Stats</button>
+                                <div id="modalLoading"
+                                    class="d-flex align-items-center justify-content-center py-4 d-none">
+                                    <strong role="status">Loading...</strong>
+                                    <div class="spinner-border ms-3" aria-hidden="true"></div></div>
+                                    <div id="modalContent" class="d-none">
+                                        <img id="modalImage" src="" class="img-fluid mb-3 ImgModal">
+                                        <div id="modalTypes"></div>
+                                        <nav>
+                                            <div class="nav nav-tabs modalNav" id="nav-tab" role="tablist">
+                                                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#nav-home" type="button" role="tab"
+                                                    aria-controls="nav-home" aria-selected="true">Main info</button>
+                                                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+                                                    data-bs-target="#nav-profile" type="button" role="tab"
+                                                    aria-controls="nav-profile" aria-selected="false">Stats</button>
 
 
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                                aria-labelledby="nav-home-tab" tabindex="0">
+                                                <div id="modalMainInfo" class="MainInfo"></div>
+                                            </div>
+                                            <div class="tab-pane fade" id="nav-profile">
+                                                <div id="modalStats" class="table table-sm">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </nav>
-                                <div class="tab-content" id="nav-tabContent">
-                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                                        aria-labelledby="nav-home-tab" tabindex="0">
-                                        <div id="modalMainInfo" class="MainInfo"></div>
-                                    </div>
-                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel"
-                                        aria-labelledby="nav-profile-tab" tabindex="0">
-                                        <div id="modalStats" class="mt-2 modal-card"
-                                            style="text-align: start;"></div>
 
-                                    </div>
                                 </div>
-
-                            </div>
-                            <div class="modal-footer d-flex justify-content-between">
-                                <button onclick="showNext('prev')" class="btn btn-outline-secondary" id="prevPokemon">
-                                    < </button>
-                                        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button onclick="showNext('next')" class="btn btn-outline-secondary"
-                                            id="nextPokemon">></button>
+                                <div class="modal-footer d-flex justify-content-between">
+                                    <button onclick="showNext('prev')" class="btn btn-outline-secondary"
+                                        id="prevPokemon">
+                                        < </button>
+                                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button onclick="showNext('next')" class="btn btn-outline-secondary"
+                                                id="nextPokemon">></button>
+                                </div>
                             </div>
                         </div>
                     </div>
+
+
                 </div>
-
-
-            </div>
         </section>
     </main>
     <footer>
 
     </footer>
-    <div class="d-flex align-items-center">
-        <strong role="status">Loading...</strong>
-        <div class="spinner-border ms-auto" aria-hidden="true"></div>
-    </div>
+
 </body>
 
 </html>
