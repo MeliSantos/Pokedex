@@ -30,8 +30,8 @@ function init() {
 
 }
 
-async function fetchPokemonList() {
-  let response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=25&offset=0');
+async function fetchPokemonList(currentOffset) {
+  let response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=25&offset=${currentOffset}`);
   let data = await response.json();
 
   for (let i = 0; i < data.results.length; i++) {
@@ -73,7 +73,7 @@ function createPokemonCard(pokemon) {
   document.getElementById('poke-cards').innerHTML += `
 
   <div class="col">
-    <div class="card h-100 text-center" onclick="openPokemonModal(${pokemon.index})" style="background-color:${bgColor}">
+    <div class="card h-100 text-center" onclick="openPokemonModal(${pokemon.index})" style="background-color:${bgColor};">
         <img src="${pokemon.sprites.front_default}" class="card-img-top mx-auto mt-3" style="width:120px">
      <div class="card-body">
         <h5 class="card-title">${pokemon.name}</h5>
@@ -212,6 +212,8 @@ function displayPokemonCards(pokemonList) {
   pokemonList.forEach(pokemon => {
     createPokemonCard(pokemon);
   });
+   let btn= document.getElementById('loadMoreBtn');
+  btn.disabled = false;
 }
 function showNoResults() {
   let container = document.getElementById('poke-cards');
@@ -222,6 +224,8 @@ function showNoResults() {
       </p>
     </div>
   `;
+  let btn= document.getElementById('loadMoreBtn');
+  btn.disabled = true;
 }
 
 

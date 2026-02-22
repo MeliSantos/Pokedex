@@ -1,21 +1,33 @@
-html {
-    margin: 0;
-}
 
-main {
-    max-width: 1440px;
+html, body {
+    height: 100%;
+    margin: 0;
+    
 }
 
 body {
-    background-color: rgba(173, 172, 172, 0.388);
-
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(15, 15, 15);
 }
-.pokeball{
+.width{
+    width: 1440px;
+}
+
+main {
+    flex: 1;
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
+
+.pokeball {
     width: 30px;
     margin-bottom: 6px;
     padding-left: 10px;
 
 }
+
 .card {
     margin-top: 25px;
     display: flex;
@@ -27,7 +39,7 @@ body {
 
 .card:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 20px rgba(230, 223, 223, 0.692);
     cursor: pointer;
 }
 
@@ -55,6 +67,8 @@ body {
 .ImgModal {
     width: 150px;
     height: auto;
+    width: 200px;
+    border-radius: 10px;
 }
 
 .nav-link {
@@ -83,7 +97,7 @@ body {
 }
 
 .alertNoPoke {
-    color: black;
+    color: white;
     font-weight: bolder;
 }
 
@@ -93,4 +107,36 @@ body {
     align-items: center;
     width: 100%;
     margin-top: 200px;
+}
+
+.new-row {
+    margin: 0 !important;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.col {
+    padding: 10px;
+}
+
+.topic {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(236, 239, 245, 0.895);
+}
+
+.load-btn {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.footer {
+    height: 50px;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    text-align: center;
 }

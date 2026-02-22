@@ -15,10 +15,10 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 
-<body onload="init()">
+<body onload="init()" class="page-wrapper">
     <header>
-        <nav class="navbar bg-body-tertiary">
-            <div class="container-fluid">
+        <nav class="navbar bg-body-tertiary page-wrapper">
+            <div class="container-fluid width">
                 <div>
                     <a href="./index.html"><img src="./img/pokeball.png" class="pokeball" alt="Pokeball"></a>
                     <a class="navbar-brand" href="./index.html">Pokedex</a>
@@ -38,10 +38,13 @@
 
         </div>
         <section class="mainSection">
-            <div id="poke-cards" class="row row-cols-1 row-cols-md-3 g-4"></div>
+            <div class="topic">
+                <h3>Choose your favourite pokémon below..</h3>
+            </div>
+            <div id="poke-cards" class="new-row"></div>
             </div>
             <div>
-                <div class="modal fade" id="pokemonModal" tabindex="-1" aria-hidden="true">
+                <div class="modal fade" id="pokemonModal" tabindex="-1" >
                     <div class="modal-dialog modal-dialog-centered modal-md">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -52,7 +55,7 @@
                                 <div id="modalLoading"
                                     class="d-flex align-items-center justify-content-center py-4 d-none">
                                     <strong role="status">Loading...</strong>
-                                    <div class="spinner-border ms-3" aria-hidden="true"></div>
+                                    <div class="spinner-border ms-3" ></div>
                                 </div>
                                 <div id="modalContent" class="d-none">
                                     <img id="modalImage" src="" class="img-fluid mb-3 ImgModal">
@@ -96,9 +99,17 @@
 
 
             </div>
+            <div class="load-btn">
+                <button id="loadMoreBtn" type="button" onclick="fetchPokemonList(allPokemons.length)" class="btn btn-outline-secondary">Load more</button>
+            </div>
         </section>
     </main>
     <footer>
+        <nav class="footer">
+            <div class="container-fluid width">
+                <a class="navbar-brand page-wrapper" href="#">© 2026 | Pokédex App | All Pokémon belong to Nintendo</a>
+            </div>
+        </nav>
 
     </footer>
 
