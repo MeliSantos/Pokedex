@@ -25,9 +25,8 @@ let newIndex;
 let myModal;
 
 function init() {
-  myModal = new bootstrap.Modal(document.getElementById('pokemonModal')); // einmal erstellen
+  myModal = new bootstrap.Modal(document.getElementById('pokemonModal'));
   fetchPokemonList();
-
 }
 
 async function fetchPokemonList(currentOffset) {
