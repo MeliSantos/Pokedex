@@ -1,0 +1,20 @@
+let typeColors = {
+  fire: "#f0803093",
+  water: "#6891f08f",
+  grass: "#78c8508f",
+  electric: "#f8d03086",
+  poison: "#a040a08e",
+  bug: "#a9b82086",
+  normal: "#a8a87885",
+  ground: "#e0c068",
+  fairy: "#ee99ac",
+  fighting: "#c03028",
+  psychic: "#f85888",
+  rock: "#b8a038",
+  ghost: "#705898",
+  ice: "#98d8d8",
+  dragon: "#7238f894",
+  dark: "#705848",
+  steel: "#b8b8d0",
+  flying: "#a890f0"
+};

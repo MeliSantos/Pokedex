@@ -1,24 +1,3 @@
-const typeColors = {
-  fire: "#f0803093",
-  water: "#6891f08f",
-  grass: "#78c8508f",
-  electric: "#f8d03086",
-  poison: "#a040a08e",
-  bug: "#a9b82086",
-  normal: "#a8a87885",
-  ground: "#e0c068",
-  fairy: "#ee99ac",
-  fighting: "#c03028",
-  psychic: "#f85888",
-  rock: "#b8a038",
-  ghost: "#705898",
-  ice: "#98d8d8",
-  dragon: "#7238f894",
-  dark: "#705848",
-  steel: "#b8b8d0",
-  flying: "#a890f0"
-};
-
 let allPokemons = [];
 let currentPokemonIndex = 0;
 let newIndex;
@@ -42,12 +21,11 @@ async function fetchPokemonList(currentOffset) {
   }
 }
 
-
 async function fetchPokemonDetails(url, index) {
   let response = await fetch(url);
   let pokemon = await response.json();
-  pokemon.index = index;
-  allPokemons[index] = pokemon;
+  pokemon.index = indexP;
+  allPokemons[indexP] = pokemon;
   createPokemonCard(pokemon);
 }
 
@@ -56,11 +34,7 @@ function createTypeBadges(types) {
   for (let i = 0; i < types.length; i++) {
     let typeName = types[i].type.name;
     let color = typeColors[typeName];
-    badgesHtml += `
-      <span class="badge me-1 type" style="background-color:${color} ">
-        ${typeName}
-      </span>
-    `;
+    badgesHtml += typeBadges(typeName, color);
   }
   return badgesHtml;
 }
@@ -69,95 +43,41 @@ function createPokemonCard(pokemon) {
   let mainType = pokemon.types[0].type.name;
   let bgColor = typeColors[mainType];
 
-  document.getElementById('poke-cards').innerHTML += `
-
-  <div class="col">
-    <div class="card h-100 text-center" onclick="openPokemonModal(${pokemon.index})" style="background-color:${bgColor};">
-        <img src="${pokemon.sprites.front_default}" class="card-img-top mx-auto mt-3" style="width:120px">
-     <div class="card-body">
-        <h5 class="card-title">${pokemon.name}</h5>
-        <div>
-            ${createTypeBadges(pokemon.types)}
-        </div>
-      </div>
-    </div>
-  </div>
-  `;
+  document.getElementById('poke-cards').innerHTML +=  getPokeCard(pokemon);
 }
 function openPokemonModal(index) {
   currentPokemonIndex = index;
   showPokemonModal(allPokemons[currentPokemonIndex]);
 }
 
-async function showPokemonModal(pokemon) { // Parameter jetzt "pokemon"
+async function showPokemonModal(pokemon) {
   document.getElementById("modalLoading").classList.remove("d-none");
   document.getElementById("modalContent").classList.add("d-none");
   myModal.show();
-
-  // Alles innerhalb der Funktion nutzt jetzt "pokemon" statt "pokemonSummary" oder undefiniert
   document.getElementById('pokemonModalLabel').textContent = pokemon.name;
   document.getElementById('modalImage').src = pokemon.sprites.front_default;
   let modalBgColor = typeColors[pokemon.types[0].type.name];
   document.getElementById('modalImage').style.backgroundColor = modalBgColor;
-
   let typesHtml = "";
   for (let i = 0; i < pokemon.types.length; i++) {
     let typeName = pokemon.types[i].type.name;
-    typesHtml += `<span class="badge me-1" style="background-color:${typeColors[typeName]}; color:white; border-radius:12px; padding:4px 10px;">${typeName}</span>`;
+    typesHtml += typeModal(typeColors, typeName);
   }
   document.getElementById('modalTypes').innerHTML = typesHtml;
 
   let statsHtml = "";
   for (let i = 0; i < pokemon.stats.length; i++) {
-    statsHtml += ` <tr>
-           <td><strong>${pokemon.stats[i].stat.name}:</strong></td>
-            <td>${pokemon.stats[i].base_stat}</td>
-              <td>  <div class="progress" role="progressbar" aria-label="${pokemon.stats[i].stat.name} stat"
-                    aria-valuenow=" ${pokemon.stats[i].base_stat} " aria-valuemin="0" aria-valuemax="150" style="height: 2px">
-                    <div class="progress-bar" style="width: ${pokemon.stats[i].base_stat}%;"></div>
-                </div>
-            </td>
-        </tr>`;
+    statsHtml += pokemonStats(pokemon, i);
   }
-
   document.getElementById('modalStats').innerHTML = statsHtml;
 
   let heightInMeters = pokemon.height / 10;
   let weightInKg = pokemon.weight / 10;
-  let mainInfoHtml = `
-  <div class="info-row">
-    <span class="info-label">ID</span>
-    <span class="info-value">#${pokemon.id}</span>
-  </div>
-
-  <div class="info-row">
-    <span class="info-label">Height</span>
-    <span class="info-value">${heightInMeters} m</span>
-  </div>
-
-  <div class="info-row">
-    <span class="info-label">Weight</span>
-    <span class="info-value">${weightInKg} kg</span>
-  </div>
-
-  <div class="info-row">
-    <span class="info-label">Base Exp</span>
-    <span class="info-value">${pokemon.base_experience}</span>
-  </div>
-
-  <div class="info-row">
-    <span class="info-label">Abilities</span>
-    <span class="info-value">
-      ${pokemon.abilities.map(a => a.ability.name).join(", ")}
-    </span>
-  </div>
-`;
-
+  let mainInfoHtml = mainInfo(pokemon, heightInMeters,weightInKg);
   document.getElementById("modalMainInfo").innerHTML = mainInfoHtml;
   document.getElementById("modalLoading").classList.add("d-none");
   document.getElementById("modalContent").classList.remove("d-none");
 }
-
 
 async function showNext(direction) {
   if (currentPokemonIndex === -1) return;
@@ -179,17 +99,14 @@ triggerTabList.forEach(triggerEl => {
   })
 })
 
-
 function searchPokemon() {
   let inputField = document.getElementById('searchInput');
   let input = inputField.value.toLowerCase().trim();
-
   if (input.length < 3) {
     displayPokemonCards(allPokemons);
     alert(' Please enter more than 2 letters to start the search.. ')
     return;
   }
-
   let filteredPokemons = allPokemons.filter(pokemon =>
     pokemon.name.toLowerCase().includes(input)
   );
@@ -202,8 +119,6 @@ function searchPokemon() {
     inputField.value = "";
 }
 
-
-
 function displayPokemonCards(pokemonList) {
   let container = document.getElementById('poke-cards');
   container.innerHTML = '';
@@ -214,15 +129,10 @@ function displayPokemonCards(pokemonList) {
    let btn= document.getElementById('loadMoreBtn');
   btn.disabled = false;
 }
+
 function showNoResults() {
   let container = document.getElementById('poke-cards');
-  container.innerHTML = `
-    <div class="centerAlert">
-      <p class="alertNoPoke">
-        No Pokémon found... 😢
-      </p>
-    </div>
-  `;
+  container.innerHTML = noResult();
   let btn= document.getElementById('loadMoreBtn');
   btn.disabled = true;
 }
