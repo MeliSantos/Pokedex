@@ -1,8 +1,8 @@
-
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
-    
+
 }
 
 body {
@@ -10,7 +10,8 @@ body {
     flex-direction: column;
     background-color: rgb(15, 15, 15);
 }
-.width{
+
+.width {
     width: 1440px;
 }
 
@@ -139,4 +140,25 @@ main {
     display: flex;
     align-items: center;
     text-align: center;
+}
+
+@media (max-width: 600px) {
+
+    h3 {
+        font-size: 20px;
+
+    }
+}
+
+@media (max-width: 450px) {
+    .footerContent {
+        font-size: 10px;
+    }
+
+    h3, h5 {
+        font-size: 16px;
+    }
+    span {
+        font-size: 14px;
+    }
 }

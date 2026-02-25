@@ -1,6 +1,5 @@
 let allPokemons = [];
 let currentPokemonIndex = 0;
-let newIndex;
 let myModal;
 
 function init() {
@@ -15,7 +14,7 @@ async function fetchPokemonList(currentOffset) {
   for (let i = 0; i < data.results.length; i++) {
     let detailResponse = await fetch(data.results[i].url);
     let pokemon = await detailResponse.json();
-    pokemon.index = i;
+    pokemon.index = allPokemons.length;
     allPokemons.push(pokemon);
     createPokemonCard(pokemon);
   }
@@ -42,9 +41,9 @@ function createTypeBadges(types) {
 function createPokemonCard(pokemon) {
   let mainType = pokemon.types[0].type.name;
   let bgColor = typeColors[mainType];
-
-  document.getElementById('poke-cards').innerHTML +=  getPokeCard(pokemon);
+  document.getElementById('poke-cards').innerHTML += getPokeCard(pokemon);
 }
+
 function openPokemonModal(index) {
   currentPokemonIndex = index;
   showPokemonModal(allPokemons[currentPokemonIndex]);
@@ -73,7 +72,7 @@ async function showPokemonModal(pokemon) {
 
   let heightInMeters = pokemon.height / 10;
   let weightInKg = pokemon.weight / 10;
-  let mainInfoHtml = mainInfo(pokemon, heightInMeters,weightInKg);
+  let mainInfoHtml = mainInfo(pokemon, heightInMeters, weightInKg);
   document.getElementById("modalMainInfo").innerHTML = mainInfoHtml;
   document.getElementById("modalLoading").classList.add("d-none");
   document.getElementById("modalContent").classList.remove("d-none");
@@ -116,7 +115,7 @@ function searchPokemon() {
   } else {
     displayPokemonCards(filteredPokemons);
   }
-    inputField.value = "";
+  inputField.value = "";
 }
 
 function displayPokemonCards(pokemonList) {
@@ -126,14 +125,14 @@ function displayPokemonCards(pokemonList) {
   pokemonList.forEach(pokemon => {
     createPokemonCard(pokemon);
   });
-   let btn= document.getElementById('loadMoreBtn');
+  let btn = document.getElementById('loadMoreBtn');
   btn.disabled = false;
 }
 
 function showNoResults() {
   let container = document.getElementById('poke-cards');
   container.innerHTML = noResult();
-  let btn= document.getElementById('loadMoreBtn');
+  let btn = document.getElementById('loadMoreBtn');
   btn.disabled = true;
 }
 
