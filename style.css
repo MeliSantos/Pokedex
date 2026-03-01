@@ -14,9 +14,11 @@ body {
 .width {
     width: 1440px;
 }
-
-main {
-    flex: 1;
+main{
+     flex: 1;
+}
+.contentLimit {
+   
     max-width: 1440px;
     margin: 0 auto;
 }
@@ -111,7 +113,7 @@ main {
 }
 
 .new-row {
-    margin: 0 !important;
+   
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -126,6 +128,7 @@ main {
     text-align: center;
     padding: 20px;
     background-color: rgba(236, 239, 245, 0.895);
+    width: 100%;
 }
 
 .load-btn {

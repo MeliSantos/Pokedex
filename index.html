@@ -43,10 +43,10 @@
             <div class="topic" id="mainHeadline">
                 <h3>Choose your favourite pokémon below..</h3>
             </div>
-            <div id="poke-cards" class="new-row"></div>
+            <div id="poke-cards" class="new-row contentLimit"></div>
             </div>
             <div>
-                <div class="modal fade" id="pokemonModal" tabindex="-1" >
+                <div class="modal fade" id="pokemonModal" tabindex="-1">
                     <div class="modal-dialog modal-dialog-centered modal-md">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -57,7 +57,7 @@
                                 <div id="modalLoading"
                                     class="d-flex align-items-center justify-content-center py-4 d-none">
                                     <strong role="status">Loading...</strong>
-                                    <div class="spinner-border ms-3" ></div>
+                                    <div class="spinner-border ms-3"></div>
                                 </div>
                                 <div id="modalContent" class="d-none">
                                     <img id="modalImage" src="" class="img-fluid mb-3 ImgModal">
@@ -101,15 +101,25 @@
 
 
             </div>
+            <div id="pageLoading" class="text-center my-3 d-none text-white">
+                <div class="spinner-border text-white"></div>
+                <strong role="status">Loading...</strong>
+            </div>
             <div class="load-btn">
-                <button id="loadMoreBtn" type="button" onclick="fetchPokemonList(allPokemons.length)" class="btn btn-outline-secondary">Load more</button>
+                <button id="loadMoreBtn" type="button" onclick="loadMore()" class="btn btn-outline-secondary">Load
+                    more</button>
+            </div>
+            <div class="load-btn mt-2 d-none" id="goHomeContainer">
+                <button id="goHomeBtn" type="button" class="btn btn-outline-secondary" onclick="goHome()">Zur
+                    Startseite</button>
             </div>
         </section>
     </main>
     <footer>
         <nav class="footer">
             <div class="container-fluid width">
-                <a class="navbar-brand page-wrapper footerContent" href="#">© 2026 | Pokédex App | All Pokémon belong to Nintendo</a>
+                <a class="navbar-brand page-wrapper footerContent" href="#">© 2026 | Pokédex App | All Pokémon belong to
+                    Nintendo</a>
             </div>
         </nav>
 
