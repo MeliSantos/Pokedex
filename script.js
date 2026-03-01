@@ -1,22 +1,27 @@
 let allPokemons = [];
 let currentPokemonIndex = 0;
 let myModal;
+let currentList = allPokemons;
 
 function init() {
   myModal = new bootstrap.Modal(document.getElementById('pokemonModal'));
   fetchPokemonList();
 }
 
-async function fetchPokemonList(currentOffset) {
-  let response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=25&offset=${currentOffset}`);
+async function fetchPokemonList(currentOffset = 0) {
+  let response = await fetch(
+    `https://pokeapi.co/api/v2/pokemon?limit=25&offset=${currentOffset}`);
   let data = await response.json();
-  for (let i = 0; i < data.results.length; i++) {
-    let detailResponse = await fetch(data.results[i].url);
-    let pokemon = await detailResponse.json();
-    pokemon.index = allPokemons.length;
-    allPokemons.push(pokemon);
-    createPokemonCard(pokemon);
-  }
+  let pokemonPromises = data.results.map(async (pokemonData) => {
+    let detailResponse = await fetch(pokemonData.url);
+    return await detailResponse.json();
+  });
+  let newPokemons = await Promise.all(pokemonPromises);
+  newPokemons.forEach((pokemon, index) => {
+    pokemon.index = allPokemons.length + index;
+  });
+  allPokemons.push(...newPokemons);
+  displayPokemonCards(allPokemons);
 }
 
 async function fetchPokemonDetails(url, index) {
@@ -91,16 +96,17 @@ async function showPokemonModal(pokemon) {
   renderModalStats(pokemon);
   renderModalMainInfo(pokemon);
   toggleModalLoading(false);
+
+  document.getElementById("prevPokemon").disabled = currentList.length <= 1;
+  document.getElementById("nextPokemon").disabled = currentList.length <= 1;
 }
 
 async function showNext(direction) {
   if (currentPokemonIndex === -1) return;
-  if (direction === 'next') {
-    currentPokemonIndex = (currentPokemonIndex + 1) % allPokemons.length;
-  } else {
-    currentPokemonIndex = (currentPokemonIndex - 1 + allPokemons.length) % allPokemons.length;
-  }
-  await showPokemonModal(allPokemons[currentPokemonIndex]);
+  const list = currentList;
+  if (direction === 'next') currentPokemonIndex = (currentPokemonIndex + 1) % list.length;
+  else currentPokemonIndex = (currentPokemonIndex - 1 + list.length) % list.length;
+  await showPokemonModal(list[currentPokemonIndex]);
 }
 
 const triggerTabList = document.querySelectorAll('#myTab button')
@@ -114,19 +120,20 @@ triggerTabList.forEach(triggerEl => {
 })
 
 function searchPokemon() {
-  let inputField = document.getElementById('searchInput');
-  let input = inputField.value.toLowerCase().trim();
+  let input = document.getElementById('searchInput').value.toLowerCase().trim();
   if (input.length < 3) {
     document.getElementById("mainHeadline").style.display = "block";
+    currentList = allPokemons;
     displayPokemonCards(allPokemons);
     alert('Please enter more than 2 letters.');
     return;
   }
-  let filteredPokemons = allPokemons.filter(pokemon =>
-    pokemon.name.toLowerCase().includes(input));
+  let filtered = allPokemons.filter(p => p.name.toLowerCase().includes(input));
   document.getElementById("mainHeadline").style.display = "none";
-  handleSearchResult(filteredPokemons);
-  inputField.value = "";
+  currentList = filtered;
+  document.getElementById("goHomeContainer").classList.remove("d-none");
+  if (filtered.length === 0) showNoResults();
+  else displayPokemonCards(filtered);
 }
 
 function handleSearchResult(filteredPokemons) {
@@ -153,4 +160,28 @@ function showNoResults() {
   container.innerHTML = noResult();
   let btn = document.getElementById('loadMoreBtn');
   btn.disabled = true;
+}
+
+function togglePageLoading(isLoading) {
+  document.getElementById("pageLoading")
+    .classList.toggle("d-none", !isLoading);
+}
+
+async function loadMore() {
+  let btn = document.getElementById("loadMoreBtn");
+  btn.disabled = true;
+  togglePageLoading(true);
+
+  await fetchPokemonList(allPokemons.length);
+
+  togglePageLoading(false);
+  btn.disabled = false;
+}
+
+function goHome() {
+  document.getElementById("searchInput").value = "";
+  document.getElementById("mainHeadline").style.display = "block";
+  currentList = allPokemons;
+  displayPokemonCards(allPokemons);
+  document.getElementById("goHomeContainer").classList.add("d-none");
 }
